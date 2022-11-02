@@ -305,7 +305,7 @@ public struct CredentialsManager {
     }
 
     // swiftlint:disable:next function_body_length
-    public func retrieveCredentials(withScope scope: String?, minTTL: Int, parameters: [String: Any], headers: [String: String], callback: @escaping (CredentialsManagerResult<Credentials>) -> Void) {
+    public func retrieveCredentials(withScope scope: String? = nil, minTTL: Int = 0, parameters: [String: Any] = [:], headers: [String: String] = [:], callback: @escaping (CredentialsManagerResult<Credentials>) -> Void) {
         self.dispatchQueue.async {
             self.dispatchGroup.enter()
 
