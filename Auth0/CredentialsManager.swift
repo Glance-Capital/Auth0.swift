@@ -646,6 +646,30 @@ public extension CredentialsManager {
         }
     }
     #endif
+    
+    #if compiler(>=5.5.2)
+    @available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.2, *)
+    func retrieveCredentials(withScope scope: String? = nil, minTTL: Int = 0, parameters: [String: Any] = [:], headers: [String: String] = [:]) async throws -> Credentials {
+        return try await withCheckedThrowingContinuation { continuation in
+            self.retrieveCredentials(withScope: scope,
+                             minTTL: minTTL,
+                             parameters: parameters,
+                             headers: headers,
+                             callback: continuation.resume)
+        }
+    }
+    #else
+    @available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, *)
+    func retrieveCredentials(withScope scope: String? = nil, minTTL: Int = 0, parameters: [String: Any] = [:], headers: [String: String] = [:]) async throws -> Credentials {
+        return try await withCheckedThrowingContinuation { continuation in
+            self.retrieveCredentials(withScope: scope,
+                             minTTL: minTTL,
+                             parameters: parameters,
+                             headers: headers,
+                             callback: continuation.resume)
+        }
+    }
+#endif
 
 }
 #endif
