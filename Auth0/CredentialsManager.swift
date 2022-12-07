@@ -104,6 +104,30 @@ public struct CredentialsManager {
 
         return self.storage.setEntry(data, forKey: storeKey)
     }
+    
+    /// Stores csrfToken in the Keychain.
+    ///
+    /// ## Usage
+    ///
+    /// ```swift
+    /// let didStore = credentialsManager.store(csrfToken: csrfToken)
+    /// ```
+    ///
+    /// - Parameter csrfToken: Csrf token  to store.
+    /// - Returns: If the credentials were stored.
+    public func store(csrfToken: String) -> Bool {
+        guard let data = csrfToken.data(using: .utf8) else {
+            return false
+        }
+
+        return self.storage.setEntry(data, forKey: "csrf-token")
+    }
+
+    public func retrieveCsrfToken() -> String? {
+        guard let data = self.storage.getEntry(forKey: "csrf-token") else { return nil }
+        
+        return String(decoding: data, as: UTF8.self)
+    }
 
     /// Clears credentials stored in the Keychain.
     ///
